@@ -28,6 +28,7 @@ class ViewController: UIViewController {
         configureCollectionView()
     }
     
+    
     func configureCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -48,6 +49,9 @@ class ViewController: UIViewController {
     func configureTextField() {
         searchTextField.placeholder = "Search picture"
         searchTextField.delegate = self
+        searchTextField.layer.cornerRadius = 10
+        searchTextField.layer.borderWidth = 0.5
+        searchTextField.layer.borderColor = UIColor.gray.cgColor
     }
     
 }
@@ -77,6 +81,17 @@ extension ViewController: UITextFieldDelegate {
         searchTextField.endEditing(true)
         guard let text = searchTextField.text else {return}
         imageManager.fetchPhotos(type: .query(searchedText: text))
+    }
+    
+}
+
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "SelectedImageVC") as? SelectedImageVC {
+            let selectedPicture = pictures?.results[indexPath.row]
+            vc.picture = selectedPicture
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
 }
