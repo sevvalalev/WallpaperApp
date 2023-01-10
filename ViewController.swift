@@ -10,6 +10,8 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet var searchTextField: UITextField!
+    @IBOutlet var searchButton: UIButton!
     
     var pictures: ImageData? {
         didSet{
@@ -40,6 +42,36 @@ class ViewController: UIViewController {
     private func fetchData() {
         imageManager.delegate = self
         imageManager.fetchPhotos(type: .random)
+    }
+    
+}
+
+extension ViewController: UITextFieldDelegate {
+    
+    @IBAction func searchPressed(_ sender: UIButton) {
+        searchTextField.endEditing(true)
+        guard let text = searchTextField.text else { return }
+        imageManager.fetchPhotos(type: .query(searchedText: text))
+
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchTextField.endEditing(true)
+        return true
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if textField.text != "" {
+            return true
+        }else {
+            textField.placeholder = "Search Picture"
+            return false
+        }
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        searchTextField.endEditing(true)
+        guard let text = searchTextField.text else {return}
+        imageManager.fetchPhotos(type: .query(searchedText: text))
     }
     
 }
