@@ -16,8 +16,7 @@ class SelectedImageVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-       
+        
         configureButton()
         prepareUI()
     }
@@ -59,9 +58,10 @@ class SelectedImageVC: UIViewController {
     }
     
     
-    @IBAction func downloadButton(_ sender: Any) {
+    @IBAction func downloadButton(_ sender: UIButton) {
         saveImage()
     }
+    
     
     func saveImage() {
         guard let selectedImage = imageView.image else{ return }
@@ -77,5 +77,5 @@ class SelectedImageVC: UIViewController {
             present(alert, animated: true)
         }
     }
-    
 }
+
