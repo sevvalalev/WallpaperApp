@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var searchTextField: UITextField!
     @IBOutlet var searchButton: UIButton!
@@ -23,6 +23,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureTextField()
         fetchData()
         configureCollectionView()
     }
@@ -44,15 +45,19 @@ class ViewController: UIViewController {
         imageManager.fetchPhotos(type: .random)
     }
     
+    func configureTextField() {
+        searchTextField.placeholder = "Search picture"
+        searchTextField.delegate = self
+    }
+    
 }
 
 extension ViewController: UITextFieldDelegate {
     
-    @IBAction func searchPressed(_ sender: UIButton) {
+    @IBAction func searchButtonPressed(_ sender: Any) {
         searchTextField.endEditing(true)
         guard let text = searchTextField.text else { return }
         imageManager.fetchPhotos(type: .query(searchedText: text))
-
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -87,18 +92,18 @@ extension ViewController: UICollectionViewDataSource {
         return pictures?.results.count ?? 0
     }
     
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PictureCollectionViewCell.identifier, for: indexPath) as? PictureCollectionViewCell {
             cell.configure(with: pictures?.results[indexPath.row])
             return cell
-    }
+        }
         return UICollectionViewCell()
-  }
+    }
 }
 
 extension ViewController: UICollectionViewDelegateFlowLayout {
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.size.width/3.2, height: view.frame.size.height/4)
     }

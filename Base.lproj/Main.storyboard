@@ -53,6 +53,9 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="magnifyingglass" catalog="system"/>
+                                <connections>
+                                    <action selector="searchButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ous-iA-njM"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -73,7 +76,7 @@
                     <navigationItem key="navigationItem" id="Zy3-xa-7lP"/>
                     <connections>
                         <outlet property="collectionView" destination="M4L-Be-6y2" id="gwf-G9-l07"/>
-                        <outlet property="searchButton" destination="hsj-S1-h3W" id="29J-Q0-7FC"/>
+                        <outlet property="searchButton" destination="hsj-S1-h3W" id="gu3-LA-wTo"/>
                         <outlet property="searchTextField" destination="Sat-h3-wGW" id="f6X-iu-xeG"/>
                     </connections>
                 </viewController>
