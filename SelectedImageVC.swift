@@ -58,7 +58,7 @@ class SelectedImageVC: UIViewController {
     }
     
     
-    @IBAction func downloadButton(_ sender: UIButton) {
+    @IBAction private func downloadButton(_ sender: UIButton) {
         saveImage()
     }
     
@@ -68,7 +68,7 @@ class SelectedImageVC: UIViewController {
         UIImageWriteToSavedPhotosAlbum(selectedImage, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
     
-    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+    @objc private func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         if let error = error {
             print(error.localizedDescription)
         } else {

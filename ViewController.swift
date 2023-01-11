@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet private var collectionView: UICollectionView!
     @IBOutlet var searchTextField: UITextField!
     @IBOutlet var searchButton: UIButton!
     
@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     }
     
     
-    func configureCollectionView() {
+    private func configureCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
         let layout = UICollectionViewFlowLayout()
@@ -85,6 +85,22 @@ extension ViewController: UITextFieldDelegate {
     
 }
 
+//MARK: - Collection View Data Source Methods
+extension ViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return pictures?.results.count ?? 0
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PictureCollectionViewCell.identifier, for: indexPath) as? PictureCollectionViewCell {
+            cell.configure(with: pictures?.results[indexPath.row])
+            return cell
+        }
+        return UICollectionViewCell()
+    }
+}
+
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "SelectedImageVC") as? SelectedImageVC {
@@ -99,21 +115,6 @@ extension ViewController: UICollectionViewDelegate {
 extension ViewController: SendPictureDataTransferDelegate {
     func sendPictureData(picture: ImageData) {
         pictures = picture
-    }
-}
-
-extension ViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return pictures?.results.count ?? 0
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PictureCollectionViewCell.identifier, for: indexPath) as? PictureCollectionViewCell {
-            cell.configure(with: pictures?.results[indexPath.row])
-            return cell
-        }
-        return UICollectionViewCell()
     }
 }
 

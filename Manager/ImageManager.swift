@@ -44,8 +44,8 @@ class ImageManager {
             
             do {
                 let picture = try JSONDecoder().decode(ImageData.self, from: data)
-                DispatchQueue.main.async {
-                    self.delegate?.sendPictureData(picture: picture)
+                DispatchQueue.main.async { [weak self] in
+                    self?.delegate?.sendPictureData(picture: picture)
                 }
             }catch{
                 print(error.localizedDescription)
